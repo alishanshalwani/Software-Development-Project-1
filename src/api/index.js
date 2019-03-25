@@ -1,11 +1,15 @@
 import express from 'express';
 import {
-  studentRouter
-} from './resources/student';
+  staffRouter
+} from './resources/staff';
 import {
-  courseRouter
-} from './resources/course';
+  residentRouter
+} from './resources/resident';
+import {
+  requestRouter
+} from './resources/request';
 
 export const restRouter = express.Router();
-restRouter.use('/students', studentRouter);
-restRouter.use('/courses', courseRouter);
+restRouter.use('/requests', requestRouter);
+restRouter.use('/residents', residentRouter);
+restRouter.use('/staffs', staffRouter);

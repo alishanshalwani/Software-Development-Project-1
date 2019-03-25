@@ -1,28 +1,29 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import logger from 'morgan';
-import cors from 'cors';
+
+import {
+  devConfig
+} from '../src/config/env/development';
+
+import {
+  setGlobalMiddleware
+} from './api/middlewares/global-middleware';
 
 import {
   restRouter
 } from './api';
 
 const app = express();
-const port = 3333;
+const PORT = devConfig.port;
 
-
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(cors());
-app.use(logger('dev'));
+setGlobalMiddleware(app);
 
 app.use('/api', restRouter);
 
 
 //connect to mongoose
 mongoose.Promise = global.Promise;
-mongoose
-  .connect('mongodb://localhost/assignment3', {
+mongoose.connect(`mongodb://localhost/${devConfig.database}`, {
     useNewUrlParser: true
   })
   .then(() => console.log('MongoDB connected'))
@@ -46,6 +47,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`App is running on ${port}`);
+app.listen(PORT, () => {
+  console.log(`App is running on ${PORT}`);
 });
